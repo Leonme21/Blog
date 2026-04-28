@@ -54,6 +54,8 @@
                     <div class="article-actions d-flex align-items-center">
                         @if (isAdmin)
                         {
+                            <button class="btn btn-sm btn-outline-primary me-2" @onclick="() => NavigateToEdit(articulo.Id)">Edit</button>
+                            <button class="btn btn-sm btn-outline-danger me-3" @onclick="() => DeleteArticle(articulo.Id)">Delete</button>
                         }
                         <div class="article-card-action" @onclick="() => NavigateToArticle(articulo.Id)">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -99,7 +101,19 @@
 
     private async Task DeleteArticle(int id)
     {
-        if (await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this article?"))
+        var result = await JSRuntime.InvokeAsync<System.Text.Json.JsonElement>("Swal.fire", new
+        {
+            title = "¿Estás seguro?",
+            text = "Esta acción no se puede deshacer",
+            icon = "warning",
+            showCancelButton = true,
+            confirmButtonColor = "#d33",
+            cancelButtonColor = "#3085d6",
+            confirmButtonText = "Sí, bórralo",
+            cancelButtonText = "Cancelar"
+        });
+
+        if (result.TryGetProperty("isConfirmed", out var confirmed) && confirmed.GetBoolean())
         {
             try
             {
@@ -110,6 +124,15 @@
                 var response = await Http.SendAsync(request);
                 if (response.IsSuccessStatusCode)
                 {
+                    await JSRuntime.InvokeVoidAsync("Swal.fire", new {
+                        title = "¡Eliminado!",
+                        text = "El artículo ha sido borrado.",
+                        icon = "success",
+                        toast = true,
+                        position = "top-end",
+                        showConfirmButton = false,
+                        timer = 2000
+                    });
                     await LoadArticles();
                 }
             }

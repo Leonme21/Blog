@@ -5,6 +5,7 @@
 @inject HttpClient Http
 @inject NavigationManager Navigation
 @inject PersonalBlog.Blazor.Services.AuthService AuthService
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Login - Personal Blog</PageTitle>
 
@@ -17,11 +18,6 @@
                     <p class="text-muted small">Sign in to manage your blog</p>
                 </div>
                 <div class="card-body">
-                    @if (!string.IsNullOrEmpty(errorMessage))
-                    {
-                        <div class="alert alert-danger p-2 small">@errorMessage</div>
-                    }
-
                     <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
                         <DataAnnotationsValidator />
                         
@@ -61,7 +57,6 @@
 
 @code {
     private AuthRequestDto loginModel = new AuthRequestDto();
-    private string? errorMessage;
     private bool isLoading = false;
 
     protected override async Task OnInitializedAsync()
@@ -75,7 +70,6 @@
     private async Task HandleLogin()
     {
         isLoading = true;
-        errorMessage = null;
 
         try
         {
@@ -87,27 +81,50 @@
                 if (result != null && result.Token != null && result.Token.Success)
                 {
                     await AuthService.LoginAsync(result.Token.Token);
+                    
+                    // Toast de éxito
+                    await JSRuntime.InvokeVoidAsync("Swal.fire", new {
+                        title = "¡Bienvenido!",
+                        text = "Inicio de sesión exitoso",
+                        icon = "success",
+                        toast = true,
+                        position = "top-end",
+                        showConfirmButton = false,
+                        timer = 2000,
+                        timerProgressBar = true
+                    });
+                    
                     Navigation.NavigateTo("/home");
                 }
                 else
                 {
-                    errorMessage = result?.Token?.Message ?? "Invalid login attempt.";
+                    await ShowError(result?.Token?.Message ?? "Invalid login attempt.");
                 }
             }
             else
             {
-                errorMessage = "Credenciales incorrectas.";
+                await ShowError("Credenciales incorrectas.");
             }
         }
         catch (Exception ex)
         {
-            errorMessage = "Error de servidor.";
+            await ShowError("Error de servidor.");
             Console.WriteLine(ex.Message);
         }
         finally
         {
             isLoading = false;
         }
+    }
+
+    private async Task ShowError(string message)
+    {
+        await JSRuntime.InvokeVoidAsync("Swal.fire", new {
+            title = "Error",
+            text = message,
+            icon = "error",
+            confirmButtonColor = "#212529"
+        });
     }
 
     public class AuthResponseWrapper

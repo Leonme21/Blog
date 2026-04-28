@@ -36,10 +36,7 @@
             {
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-4">
-                        @if (!string.IsNullOrEmpty(errorMessage))
-                        {
-                            <div class="alert alert-danger">@errorMessage</div>
-                        }
+
 
                         <EditForm Model="@articleModel" OnValidSubmit="HandleSubmit">
                             <DataAnnotationsValidator />
@@ -89,7 +86,7 @@
     private bool isAuthorized = false;
     private bool isLoading = true;
     private bool isSubmitting = false;
-    private string? errorMessage;
+
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -134,12 +131,12 @@
             }
             else
             {
-                errorMessage = "Could not load the article.";
+                await ShowError("No se pudo cargar el artículo.");
             }
         }
         catch (Exception ex)
         {
-            errorMessage = "Error loading article.";
+            await ShowError("Error al cargar el artículo.");
             Console.WriteLine(ex.Message);
         }
         finally
@@ -154,7 +151,6 @@
         if (articleModel == null) return;
         
         isSubmitting = true;
-        errorMessage = null;
 
         try
         {
@@ -166,27 +162,43 @@
             
             if (response.IsSuccessStatusCode)
             {
+                await JSRuntime.InvokeVoidAsync("Swal.fire", new {
+                    title = "¡Actualizado!",
+                    text = "El artículo se ha modificado correctamente.",
+                    icon = "success",
+                    confirmButtonColor = "#198754"
+                });
                 Navigation.NavigateTo("/admin");
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized || response.StatusCode == System.Net.HttpStatusCode.Forbidden)
             {
-                await JSRuntime.InvokeVoidAsync("alert", "Session expired or unauthorized.");
+                await ShowError("Sesión expirada o no autorizada.");
                 Navigation.NavigateTo("/login");
             }
             else
             {
-                errorMessage = "Failed to update article.";
+                await ShowError("Error al actualizar el artículo.");
             }
         }
         catch (Exception ex)
         {
-            errorMessage = "A server error occurred while updating.";
+            await ShowError("Ocurrió un error en el servidor al intentar actualizar.");
             Console.WriteLine(ex.Message);
         }
         finally
         {
             isSubmitting = false;
         }
+    }
+
+    private async Task ShowError(string message)
+    {
+        await JSRuntime.InvokeVoidAsync("Swal.fire", new {
+            title = "Error",
+            text = message,
+            icon = "error",
+            confirmButtonColor = "#212529"
+        });
     }
 
     private void NavigateBack() => Navigation.NavigateTo("/admin");

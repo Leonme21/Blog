@@ -4,6 +4,7 @@
 @inject HttpClient Http
 @inject NavigationManager Navigation
 @inject PersonalBlog.Blazor.Services.AuthService AuthService
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Register - Personal Blog</PageTitle>
 
@@ -16,11 +17,6 @@
                     <p class="text-muted small">Join as a new administrator</p>
                 </div>
                 <div class="card-body">
-                    @if (!string.IsNullOrEmpty(errorMessage))
-                    {
-                        <div class="alert alert-danger p-2 small">@errorMessage</div>
-                    }
-
                     <EditForm Model="@registerModel" OnValidSubmit="HandleRegister">
                         <DataAnnotationsValidator />
 
@@ -68,7 +64,6 @@
 
 @code {
     private RegisterRequestDto registerModel = new RegisterRequestDto();
-    private string? errorMessage;
     private bool isLoading = false;
 
     protected override async Task OnInitializedAsync()
@@ -82,7 +77,6 @@
     private async Task HandleRegister()
     {
         isLoading = true;
-        errorMessage = null;
 
         try
         {
@@ -90,22 +84,38 @@
             
             if (response.IsSuccessStatusCode)
             {
+                await JSRuntime.InvokeVoidAsync("Swal.fire", new {
+                    title = "¡Éxito!",
+                    text = "Cuenta creada correctamente",
+                    icon = "success",
+                    confirmButtonColor = "#0d6efd"
+                });
                 Navigation.NavigateTo("/login");
             }
             else
             {
                 var errorText = await response.Content.ReadAsStringAsync();
-                errorMessage = string.IsNullOrEmpty(errorText) ? "Error en el registro. Intenta con otro correo o usuario." : errorText;
+                await ShowError(string.IsNullOrEmpty(errorText) ? "Error en el registro. Intenta con otro correo o usuario." : errorText);
             }
         }
         catch (Exception ex)
         {
-            errorMessage = "Error de servidor.";
+            await ShowError("Error de servidor.");
             Console.WriteLine(ex.Message);
         }
         finally
         {
             isLoading = false;
         }
+    }
+
+    private async Task ShowError(string message)
+    {
+        await JSRuntime.InvokeVoidAsync("Swal.fire", new {
+            title = "Error",
+            text = message,
+            icon = "error",
+            confirmButtonColor = "#212529"
+        });
     }
 }

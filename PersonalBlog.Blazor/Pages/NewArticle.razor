@@ -26,10 +26,7 @@
             {
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-4">
-                        @if (!string.IsNullOrEmpty(errorMessage))
-                        {
-                            <div class="alert alert-danger">@errorMessage</div>
-                        }
+
 
                         <EditForm Model="@articleModel" OnValidSubmit="HandleSubmit">
                             <DataAnnotationsValidator />
@@ -75,7 +72,7 @@
     private string? token;
     private bool isAuthorized = false;
     private bool isSubmitting = false;
-    private string? errorMessage;
+
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -99,7 +96,6 @@
     private async Task HandleSubmit()
     {
         isSubmitting = true;
-        errorMessage = null;
 
         try
         {
@@ -111,27 +107,43 @@
             
             if (response.IsSuccessStatusCode)
             {
+                await JSRuntime.InvokeVoidAsync("Swal.fire", new {
+                    title = "¡Publicado!",
+                    text = "El artículo se ha publicado correctamente.",
+                    icon = "success",
+                    confirmButtonColor = "#198754"
+                });
                 Navigation.NavigateTo("/admin");
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized || response.StatusCode == System.Net.HttpStatusCode.Forbidden)
             {
-                await JSRuntime.InvokeVoidAsync("alert", "Session expired or unauthorized. Please login again.");
+                await ShowError("Sesión expirada o no autorizada. Por favor inicia sesión de nuevo.");
                 Navigation.NavigateTo("/login");
             }
             else
             {
-                errorMessage = "Failed to create article. Please check the form data.";
+                await ShowError("Error al publicar el artículo. Por favor verifica los datos.");
             }
         }
         catch (Exception ex)
         {
-            errorMessage = "A server error occurred while publishing.";
+            await ShowError("Ocurrió un error en el servidor al intentar publicar.");
             Console.WriteLine(ex.Message);
         }
         finally
         {
             isSubmitting = false;
         }
+    }
+
+    private async Task ShowError(string message)
+    {
+        await JSRuntime.InvokeVoidAsync("Swal.fire", new {
+            title = "Error",
+            text = message,
+            icon = "error",
+            confirmButtonColor = "#212529"
+        });
     }
 
     private void NavigateBack() => Navigation.NavigateTo("/admin");
