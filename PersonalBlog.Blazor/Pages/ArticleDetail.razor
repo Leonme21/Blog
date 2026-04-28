@@ -1,0 +1,81 @@
+@page "/article/{Id:int}"
+@using PersonalBlog.Application.DTOs
+@using System.Net.Http.Json
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+<div class="article-detail-container">
+    <button class="back-button" @onclick="NavigateBack">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to Home
+    </button>
+
+    @if (isLoading)
+    {
+        <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading article...</p>
+        </div>
+    }
+    else if (articulo == null)
+    {
+        <div class="error-state">
+            <h2>Article Not Found</h2>
+            <p>The article you are looking for does not exist or has been removed.</p>
+        </div>
+    }
+    else
+    {
+        <article class="article-content-wrapper">
+            <header class="article-header">
+                <h1 class="article-title">@articulo.Titulo</h1>
+                <div class="article-meta">
+                    <span class="article-date">@articulo.FechaPublicacion.ToString("MMMM d, yyyy")</span>
+                    <span class="separator">•</span>
+                    <span class="article-author">by @articulo.NombreAutor</span>
+                </div>
+            </header>
+            
+            <div class="article-body">
+                @((MarkupString)FormatContent(articulo.Contenido))
+            </div>
+        </article>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private ArticuloResponseDto? articulo;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            articulo = await Http.GetFromJsonAsync<ArticuloResponseDto>($"api/Articulo/{Id}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching article {Id}: {ex.Message}");
+            articulo = null;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void NavigateBack()
+    {
+        Navigation.NavigateTo("/");
+    }
+
+    // A simple method to replace newlines with <br /> for basic formatting
+    private string FormatContent(string content)
+    {
+        if (string.IsNullOrWhiteSpace(content)) return string.Empty;
+        return System.Net.WebUtility.HtmlEncode(content).Replace("\n", "<br />");
+    }
+}

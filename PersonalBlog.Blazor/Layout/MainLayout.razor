@@ -1,0 +1,60 @@
+@inherits LayoutComponentBase
+@inject PersonalBlog.Blazor.Services.AuthService AuthService
+@implements IDisposable
+
+<div class="page">
+    @if (isAuthenticated)
+    {
+        <div class="sidebar">
+            <NavMenu />
+        </div>
+    }
+
+    <main>
+        @if (isAuthenticated)
+        {
+            <div class="top-row px-4">
+                <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            </div>
+        }
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code {
+    private bool isAuthenticated = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            AuthService.OnChange += StateHasChangedHandler;
+            await CheckAuth();
+        }
+    }
+
+    private async Task CheckAuth()
+    {
+        var auth = await AuthService.IsAuthenticatedAsync();
+        if (auth != isAuthenticated)
+        {
+            isAuthenticated = auth;
+            StateHasChanged();
+        }
+    }
+
+    private async void StateHasChangedHandler()
+    {
+        await InvokeAsync(async () => {
+            await CheckAuth();
+        });
+    }
+
+    public void Dispose()
+    {
+        AuthService.OnChange -= StateHasChangedHandler;
+    }
+}

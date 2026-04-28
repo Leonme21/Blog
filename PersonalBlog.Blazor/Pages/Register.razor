@@ -1,0 +1,110 @@
+@page "/register"
+@using PersonalBlog.Application.DTOs
+@using System.Net.Http.Json
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject PersonalBlog.Blazor.Services.AuthService AuthService
+
+<PageTitle>Register - Personal Blog</PageTitle>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm border-0 rounded-lg mt-5">
+                <div class="card-header text-center bg-transparent border-0 pt-4 pb-0">
+                    <h3 class="font-weight-light my-2">Create Account</h3>
+                    <p class="text-muted small">Join as a new administrator</p>
+                </div>
+                <div class="card-body">
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger p-2 small">@errorMessage</div>
+                    }
+
+                    <EditForm Model="@registerModel" OnValidSubmit="HandleRegister">
+                        <DataAnnotationsValidator />
+
+                        <div class="form-floating mb-3">
+                            <InputText id="nombre" class="form-control" @bind-Value="registerModel.Nombre" placeholder="Full Name" />
+                            <label for="nombre">Full Name</label>
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            <InputText id="username" class="form-control" @bind-Value="registerModel.UserName" placeholder="Username" />
+                            <label for="username">Username</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <InputText id="email" type="email" class="form-control" @bind-Value="registerModel.Email" placeholder="name@example.com" />
+                            <label for="email">Email address</label>
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            <InputText id="password" type="password" class="form-control" @bind-Value="registerModel.Contraseña" placeholder="Password" />
+                            <label for="password">Password</label>
+                        </div>
+
+                        <div class="mt-4 mb-0">
+                            <button class="btn btn-primary w-100 py-2" type="submit" disabled="@isLoading">
+                                @if (isLoading)
+                                {
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                }
+                                else
+                                {
+                                    <span>Register</span>
+                                }
+                            </button>
+                        </div>
+                    </EditForm>
+                </div>
+                <div class="card-footer text-center py-3 bg-white border-0">
+                    <div class="small">¿Ya tienes cuenta? <a href="/login" class="text-primary font-weight-bold">Inicia sesión aquí</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private RegisterRequestDto registerModel = new RegisterRequestDto();
+    private string? errorMessage;
+    private bool isLoading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (await AuthService.IsAuthenticatedAsync())
+        {
+            Navigation.NavigateTo("/home");
+        }
+    }
+
+    private async Task HandleRegister()
+    {
+        isLoading = true;
+        errorMessage = null;
+
+        try
+        {
+            var response = await Http.PostAsJsonAsync("api/User/Register", registerModel);
+            
+            if (response.IsSuccessStatusCode)
+            {
+                Navigation.NavigateTo("/login");
+            }
+            else
+            {
+                errorMessage = "Error en el registro. Intenta con otro correo o usuario.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Error de servidor.";
+            Console.WriteLine(ex.Message);
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}
