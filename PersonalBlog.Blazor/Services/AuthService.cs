@@ -37,6 +37,45 @@ namespace PersonalBlog.Blazor.Services
             NotifyStateChanged();
         }
 
+        public async Task<bool> IsAdminAsync()
+        {
+            var token = await GetTokenAsync();
+            if (string.IsNullOrEmpty(token)) return false;
+            try
+            {
+                var payload = token.Split('.')[1];
+
+                
+                payload = payload.Replace('-', '+').Replace('_', '/');
+                
+                switch (payload.Length % 4)
+                {
+                    case 2: payload += "=="; break;
+                    case 3: payload += "="; break;
+                }
+                var jsonBytes = Convert.FromBase64String(payload);
+                var json = System.Text.Encoding.UTF8.GetString(jsonBytes);
+                var jsonElement = System.Text.Json.JsonDocument.Parse(json).RootElement;
+                
+                string? role = null;
+                if (jsonElement.TryGetProperty("role", out var roleProp))
+                {
+                    role = roleProp.GetString();
+                }
+                else if (jsonElement.TryGetProperty("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", out var claimProp))
+                {
+                    role = claimProp.GetString();
+                }
+                return role == "Admin";
+            }
+            catch
+            {
+                
+                return false;
+            }
+        }
+
+
         private void NotifyStateChanged() => OnChange?.Invoke();
     }
 }

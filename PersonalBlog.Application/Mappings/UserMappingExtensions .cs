@@ -1,4 +1,4 @@
-﻿using PersonalBlog.Application.DTOs;
+using PersonalBlog.Application.DTOs;
 using PersonalBlog.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -38,6 +38,8 @@ namespace PersonalBlog.Application.Mappings
                 Id = usuario.Id,
                 Token = token,
                 Rol = usuario.Rol.ToString(),
+                Success = true,
+                Message = "Usuario registrado correctamente."
             };
         }
 

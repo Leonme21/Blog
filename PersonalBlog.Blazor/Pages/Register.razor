@@ -94,7 +94,8 @@
             }
             else
             {
-                errorMessage = "Error en el registro. Intenta con otro correo o usuario.";
+                var errorText = await response.Content.ReadAsStringAsync();
+                errorMessage = string.IsNullOrEmpty(errorText) ? "Error en el registro. Intenta con otro correo o usuario." : errorText;
             }
         }
         catch (Exception ex)

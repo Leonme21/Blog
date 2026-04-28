@@ -2,6 +2,8 @@
 @using PersonalBlog.Application.DTOs
 @using System.Net.Http.Json
 @using System.Net.Http.Headers
+@using PersonalBlog.Blazor.Services
+@inject PersonalBlog.Blazor.Services.AuthService AuthService
 @inject HttpClient Http
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
@@ -79,12 +81,15 @@
     {
         if (firstRender)
         {
-            token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
-            if (string.IsNullOrEmpty(token))
+            token = await AuthService.GetTokenAsync();
+            bool esAdmin = await AuthService.IsAdminAsync();
+
+            if (!esAdmin)
             {
                 Navigation.NavigateTo("/login");
                 return;
             }
+
             
             isAuthorized = true;
             StateHasChanged();
