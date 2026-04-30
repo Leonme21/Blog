@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PersonalBlog.Application.DTOs;
 using PersonalBlog.Application.Interfaces;
+using PersonalBlog.Domain.Constants;
 using System.Security.Claims;
 
 
@@ -35,7 +36,7 @@ namespace PersonalBlog.API.Controllers
             return Ok(articulo);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         [HttpPost]
         public async Task<ActionResult> Create(CreateArticuloDto articuloDto)
         {
@@ -47,7 +48,7 @@ namespace PersonalBlog.API.Controllers
 
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, UpdateArticuloDto articuloDto)
         {
@@ -62,7 +63,7 @@ namespace PersonalBlog.API.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {

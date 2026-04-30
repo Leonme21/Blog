@@ -6,7 +6,8 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://blog-production-8137.up.railway.app/") });
+var apiBaseUrl = builder.Configuration["ApiBaseUrl"] ?? "https://localhost:7107/";
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiBaseUrl) });
 builder.Services.AddScoped<PersonalBlog.Blazor.Services.AuthService>();
 
 await builder.Build().RunAsync();

@@ -53,7 +53,7 @@ namespace PersonalBlog.Application.Services
             user.Rol = PersonalBlog.Domain.Enums.Rol.User;
 
             await _userRepository.AddAsync(user);
-            // 4. Generar token y responder
+            // 3. Generar token y responder
             var token = _jwtTokenGenerator.GenerateToken(user);
             return user.ToRegisterResponseDto(token);
         }

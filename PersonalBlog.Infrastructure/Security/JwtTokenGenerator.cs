@@ -2,13 +2,9 @@
 using PersonalBlog.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PersonalBlog.Infrastructure.Security
 {
@@ -42,7 +38,7 @@ namespace PersonalBlog.Infrastructure.Security
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(8), // El token dura 8 horas
+                expires: DateTime.UtcNow.AddHours(1), // El token dura 1 hora
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);

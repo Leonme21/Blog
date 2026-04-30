@@ -2,11 +2,6 @@
 using PersonalBlog.Domain.Entities;
 using PersonalBlog.Domain.Interfaces;
 using PersonalBlog.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PersonalBlog.Infrastructure.Repositories
 {
@@ -40,10 +35,10 @@ namespace PersonalBlog.Infrastructure.Repositories
             return await _context.Articulos.Include(a => a.Usuario).FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public Task UpdateAsyncs(Articulo articulo)
+        public async Task UpdateAsyncs(Articulo articulo)
         {
             _context.Articulos.Update(articulo);
-            return _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

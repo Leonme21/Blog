@@ -45,6 +45,7 @@ namespace PersonalBlog.Infrastructure.Persistence
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Titulo);
+                entity.Property(e => e.Contenido).IsRequired();
             });
 
             modelBuilder.Entity<Usuario>(entity =>
