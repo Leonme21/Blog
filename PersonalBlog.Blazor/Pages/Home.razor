@@ -13,15 +13,6 @@
     <header class="blog-header">
         <h1 class="blog-title">Blog Personal</h1>
         <p class="blog-subtitle">Ideas, pensamientos e historias.</p>
-        
-        @if (isAdmin)
-        {
-            <div class="mt-4 text-center">
-                <button class="btn btn-success btn-sm px-4" @onclick='() => Navigation.NavigateTo("/admin/new")'>
-                    + Nuevo Artículo
-                </button>
-            </div>
-        }
     </header>
 
     @if (articulos == null)
@@ -52,11 +43,6 @@
                     </div>
                     
                     <div class="article-actions d-flex align-items-center">
-                        @if (isAdmin)
-                        {
-                            <button class="btn btn-sm btn-outline-primary me-2" @onclick="() => NavigateToEdit(articulo.Id)">Editar</button>
-                            <button class="btn btn-sm btn-outline-danger me-3" @onclick="() => DeleteArticle(articulo.Id)">Eliminar</button>
-                        }
                         <div class="article-card-action" @onclick="() => NavigateToArticle(articulo.Id)">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                         </div>

@@ -16,8 +16,47 @@ namespace PersonalBlog.Blazor.Services
 
         public async Task<bool> IsAuthenticatedAsync()
         {
-            var token = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
-            return !string.IsNullOrEmpty(token);
+            var token = await GetTokenAsync();
+            if (string.IsNullOrEmpty(token)) return false;
+            if (IsTokenExpired(token))
+            {
+                await LogoutAsync();
+                return false;
+            }
+            return true;
+        }
+
+        private bool IsTokenExpired(string token)
+        {
+            try
+            {
+                var payload = token.Split('.')[1];
+                var jsonBytes = ParseBase64WithoutPadding(payload);
+                var json = System.Text.Encoding.UTF8.GetString(jsonBytes);
+                var jsonElement = System.Text.Json.JsonDocument.Parse(json).RootElement;
+                if (jsonElement.TryGetProperty("exp", out var expProp))
+                {
+                    var expTime = expProp.GetInt64();
+                    var expires = DateTimeOffset.FromUnixTimeSeconds(expTime).UtcDateTime;
+                    return expires < DateTime.UtcNow;
+                }
+                return true;
+            }
+            catch
+            {
+                return true;
+            }
+        }
+
+        private byte[] ParseBase64WithoutPadding(string base64)
+        {
+            base64 = base64.Replace('-', '+').Replace('_', '/');
+            switch (base64.Length % 4)
+            {
+                case 2: base64 += "=="; break;
+                case 3: base64 += "="; break;
+            }
+            return Convert.FromBase64String(base64);
         }
 
         public async Task<string?> GetTokenAsync()
