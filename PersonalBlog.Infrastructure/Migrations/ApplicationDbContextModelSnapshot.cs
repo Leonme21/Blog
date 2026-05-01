@@ -32,8 +32,7 @@ namespace PersonalBlog.Infrastructure.Migrations
 
                     b.Property<string>("Contenido")
                         .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("varchar(5000)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");

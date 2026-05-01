@@ -5,7 +5,7 @@
 namespace PersonalBlog.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class ValidacionesFinalesFuncionales : Migration
+    public partial class ValidacionesOk : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -13,12 +13,11 @@ namespace PersonalBlog.Infrastructure.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "Contenido",
                 table: "Articulos",
-                type: "varchar(5000)",
-                maxLength: 5000,
+                type: "longtext",
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "varchar(2000)",
-                oldMaxLength: 2000)
+                oldType: "varchar(5000)",
+                oldMaxLength: 5000)
                 .Annotation("MySql:CharSet", "utf8mb4")
                 .OldAnnotation("MySql:CharSet", "utf8mb4");
         }
@@ -29,12 +28,11 @@ namespace PersonalBlog.Infrastructure.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "Contenido",
                 table: "Articulos",
-                type: "varchar(2000)",
-                maxLength: 2000,
+                type: "varchar(5000)",
+                maxLength: 5000,
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "varchar(5000)",
-                oldMaxLength: 5000)
+                oldType: "longtext")
                 .Annotation("MySql:CharSet", "utf8mb4")
                 .OldAnnotation("MySql:CharSet", "utf8mb4");
         }

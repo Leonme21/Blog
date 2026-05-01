@@ -12,8 +12,8 @@ using PersonalBlog.Infrastructure.Persistence;
 namespace PersonalBlog.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260501211802_ValidacionesFinalesFuncionales")]
-    partial class ValidacionesFinalesFuncionales
+    [Migration("20260501212532_ValidacionesOk")]
+    partial class ValidacionesOk
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,8 +35,7 @@ namespace PersonalBlog.Infrastructure.Migrations
 
                     b.Property<string>("Contenido")
                         .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("varchar(5000)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PersonalBlog.Domain.Common;
 using PersonalBlog.Domain.Entities;
 using PersonalBlog.Domain.Enums;
@@ -45,7 +45,7 @@ namespace PersonalBlog.Infrastructure.Persistence
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Titulo).IsRequired().HasMaxLength(100);
-                entity.Property(e => e.Contenido).IsRequired().HasMaxLength(5000);
+                entity.Property(e => e.Contenido).IsRequired();
             });
 
             modelBuilder.Entity<Usuario>(entity =>
