@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using PersonalBlog.Domain.Interfaces;
 
 namespace PersonalBlog.Infrastructure.Persistence
@@ -18,7 +19,7 @@ namespace PersonalBlog.Infrastructure.Persistence
 
         public void Initialize()
         {
-            _context.Database.EnsureCreated();
+            _context.Database.Migrate();
             if (_context.Usuarios.Any()) return;
 
             var userName = _configuration["AdminUser:UserName"];

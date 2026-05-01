@@ -44,16 +44,17 @@ namespace PersonalBlog.Infrastructure.Persistence
             modelBuilder.Entity<Articulo>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Titulo).IsRequired().HasMaxLength(200);
-                entity.Property(e => e.Contenido).IsRequired();
+                entity.Property(e => e.Titulo).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Contenido).IsRequired().HasMaxLength(2000);
             });
 
             modelBuilder.Entity<Usuario>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.NombreUsuario).HasMaxLength(50).IsRequired();
-                entity.Property(e => e.Nombre).HasMaxLength(100);
-                entity.Property(e => e.Email).HasMaxLength(100).IsRequired();
+                entity.Property(e => e.NombreUsuario).HasMaxLength(20).IsRequired();
+                entity.Property(e => e.Contraseña).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.Nombre).HasMaxLength(50);
+                entity.Property(e => e.Email).HasMaxLength(50).IsRequired();
 
                 entity.HasMany(e => e.Articulos)
                       .WithOne(a => a.Usuario)
