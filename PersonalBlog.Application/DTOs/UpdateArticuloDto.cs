@@ -16,7 +16,7 @@ namespace PersonalBlog.Application.DTOs
 
         [Required(ErrorMessage = "El contenido no puede estar vacio")]
         [MinLength(50, ErrorMessage = "El contenido debe tener al menos 50 caracteres")]
-        [MaxLength(2000, ErrorMessage = "El contenido no puede tener más de 2000 caracteres")]
+        [MaxLength(5000, ErrorMessage = "El contenido no puede tener más de 5000 caracteres")]
         public string Contenido { get; set; } = string.Empty;
         public DateTime FechaPublicacion { get; set; }
     }
