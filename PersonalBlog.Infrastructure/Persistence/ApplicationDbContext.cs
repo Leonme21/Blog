@@ -44,7 +44,7 @@ namespace PersonalBlog.Infrastructure.Persistence
             modelBuilder.Entity<Articulo>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Titulo);
+                entity.Property(e => e.Titulo).IsRequired().HasMaxLength(200);
                 entity.Property(e => e.Contenido).IsRequired();
             });
 

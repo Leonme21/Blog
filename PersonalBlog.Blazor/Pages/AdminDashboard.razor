@@ -8,31 +8,31 @@
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
 
-<PageTitle>Admin Dashboard</PageTitle>
+<PageTitle>Panel de Administración</PageTitle>
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Personal Blog <span class="text-muted fs-5">| Admin Dashboard</span></h2>
+        <h2 class="mb-0">Blog Personal <span class="text-muted fs-5">| Panel de Administración</span></h2>
         <div>
             <button class="btn btn-primary me-2" @onclick='() => Navigation.NavigateTo("/admin/new")'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg me-1" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
                 </svg>
-                Add New
+                Añadir Nuevo
             </button>
-            <button class="btn btn-outline-secondary" @onclick="Logout">Logout</button>
+            <button class="btn btn-outline-secondary" @onclick="Logout">Cerrar Sesión</button>
         </div>
     </div>
 
     @if (!isAuthorized)
     {
-        <div class="alert alert-warning">Checking authorization...</div>
+        <div class="alert alert-warning">Verificando autorización...</div>
     }
     else if (isLoading)
     {
         <div class="text-center py-5">
             <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
+                <span class="visually-hidden">Cargando...</span>
             </div>
         </div>
     }
@@ -40,9 +40,9 @@
     {
         <div class="card text-center py-5 shadow-sm border-0">
             <div class="card-body">
-                <h5 class="text-muted">No articles found.</h5>
-                <p>Start writing your first post!</p>
-                <button class="btn btn-primary mt-2" @onclick="NavigateToNew">Create Article</button>
+                <h5 class="text-muted">No se encontraron artículos.</h5>
+                <p>¡Empieza a escribir tu primera entrada!</p>
+                <button class="btn btn-primary mt-2" @onclick="NavigateToNew">Crear Artículo</button>
             </div>
         </div>
     }
@@ -55,11 +55,11 @@
                     <div class="list-group-item d-flex justify-content-between align-items-center py-3">
                         <div>
                             <h5 class="mb-1">@articulo.Titulo</h5>
-                            <small class="text-muted">Published: @articulo.FechaPublicacion.ToString("MMM d, yyyy")</small>
+                            <small class="text-muted">Publicado: @articulo.FechaPublicacion.ToString("d 'de' MMM, yyyy")</small>
                         </div>
                         <div>
-                            <button class="btn btn-sm btn-outline-primary me-2" @onclick="() => NavigateToEdit(articulo.Id)">Edit</button>
-                            <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteArticle(articulo.Id)">Delete</button>
+                            <button class="btn btn-sm btn-outline-primary me-2" @onclick="() => NavigateToEdit(articulo.Id)">Editar</button>
+                            <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteArticle(articulo.Id)">Eliminar</button>
                         </div>
                     </div>
                 }

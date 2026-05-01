@@ -7,18 +7,18 @@
 @inject PersonalBlog.Blazor.Services.AuthService AuthService
 @inject IJSRuntime JSRuntime
 
-<PageTitle>Personal Blog - Feed</PageTitle>
+<PageTitle>Blog Personal - Inicio</PageTitle>
 
 <div class="blog-container">
     <header class="blog-header">
-        <h1 class="blog-title">Personal Blog</h1>
-        <p class="blog-subtitle">Insights, thoughts, and stories.</p>
+        <h1 class="blog-title">Blog Personal</h1>
+        <p class="blog-subtitle">Ideas, pensamientos e historias.</p>
         
         @if (isAdmin)
         {
             <div class="mt-4 text-center">
                 <button class="btn btn-success btn-sm px-4" @onclick='() => Navigation.NavigateTo("/admin/new")'>
-                    + Add New Article
+                    + Nuevo Artículo
                 </button>
             </div>
         }
@@ -28,13 +28,13 @@
     {
         <div class="loading-state">
             <div class="spinner"></div>
-            <p>Loading the latest thoughts...</p>
+            <p>Cargando los últimos artículos...</p>
         </div>
     }
     else if (!articulos.Any())
     {
         <div class="empty-state">
-            <p>No articles published yet. Check back soon!</p>
+            <p>No hay artículos publicados todavía. ¡Vuelve pronto!</p>
         </div>
     }
     else
@@ -47,15 +47,15 @@
                         <h2 class="article-title">@articulo.Titulo</h2>
                         <div class="article-meta">
                             <span class="article-date">@articulo.FechaPublicacion.ToString("MMMM d, yyyy")</span>
-                            <span class="article-author">by @articulo.NombreAutor</span>
+                            <span class="article-author">por @articulo.NombreAutor</span>
                         </div>
                     </div>
                     
                     <div class="article-actions d-flex align-items-center">
                         @if (isAdmin)
                         {
-                            <button class="btn btn-sm btn-outline-primary me-2" @onclick="() => NavigateToEdit(articulo.Id)">Edit</button>
-                            <button class="btn btn-sm btn-outline-danger me-3" @onclick="() => DeleteArticle(articulo.Id)">Delete</button>
+                            <button class="btn btn-sm btn-outline-primary me-2" @onclick="() => NavigateToEdit(articulo.Id)">Editar</button>
+                            <button class="btn btn-sm btn-outline-danger me-3" @onclick="() => DeleteArticle(articulo.Id)">Eliminar</button>
                         }
                         <div class="article-card-action" @onclick="() => NavigateToArticle(articulo.Id)">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
