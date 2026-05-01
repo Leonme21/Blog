@@ -80,7 +80,7 @@
                 {
                     await AuthService.LoginAsync(result.Token.Token);
                     
-                    // Toast de éxito
+                    // Alerta de éxito
                     await JSRuntime.InvokeVoidAsync("Swal.fire", new {
                         title = "¡Bienvenido!",
                         text = "Inicio de sesión exitoso",
