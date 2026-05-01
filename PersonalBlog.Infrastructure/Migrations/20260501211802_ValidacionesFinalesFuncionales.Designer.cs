@@ -12,8 +12,8 @@ using PersonalBlog.Infrastructure.Persistence;
 namespace PersonalBlog.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260501210617_ArregloContenidoArticulo")]
-    partial class ArregloContenidoArticulo
+    [Migration("20260501211802_ValidacionesFinalesFuncionales")]
+    partial class ValidacionesFinalesFuncionales
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

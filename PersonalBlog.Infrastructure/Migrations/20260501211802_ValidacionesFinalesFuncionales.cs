@@ -5,7 +5,7 @@
 namespace PersonalBlog.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class ArregloContenidoArticulo : Migration
+    public partial class ValidacionesFinalesFuncionales : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
