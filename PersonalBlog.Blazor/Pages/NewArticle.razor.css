@@ -1,44 +1,145 @@
 .form-card {
     background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 24px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    position: relative;
+}
+
+.input-group-custom {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.3);
+    transition: color 0.3s ease;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+}
+
+.form-input {
+    width: 100%;
+    padding: 1.25rem 1rem 1.25rem 3.25rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
     color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    outline: none;
 }
 
 .content-editor {
-    height: 400px !important;
+    height: 450px !important;
+    resize: vertical;
+    line-height: 1.6;
+    padding-top: 2.5rem !important;
 }
 
-.form-input-custom {
-    width: 100% !important;
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    color: #fff !important;
-    border-radius: 12px !important;
+.text-danger-custom {
+    color: #ff6b6b !important;
+    font-weight: 500;
+}
+.form-input::placeholder {
+    color: transparent;
+}
+
+.form-input:focus {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
+}
+
+.form-input:focus ~ .input-icon,
+.form-input:not(:placeholder-shown) ~ .input-icon {
+    color: #fff;
+}
+
+.input-group-custom label {
+    position: absolute;
+    left: 3.25rem;
+    top: 1.25rem;
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 0.95rem;
+    pointer-events: none;
     transition: all 0.3s ease;
-    box-sizing: border-box;
 }
 
-.form-input-custom:-webkit-autofill,
-.form-input-custom:-webkit-autofill:hover, 
-.form-input-custom:-webkit-autofill:focus, 
-.form-input-custom:-webkit-autofill:active  {
-    -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
-    -webkit-text-fill-color: white !important;
-    transition: background-color 5000s ease-in-out 0s;
+.form-input:focus ~ label,
+.form-input:not(:placeholder-shown) ~ label {
+    top: -0.5rem;
+    left: 1rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    background: #1a1a1a;
+    padding: 0 0.5rem;
 }
 
-.form-input-custom:focus {
-    background: rgba(255, 255, 255, 0.08) !important;
-    border-color: rgba(255, 255, 255, 0.3) !important;
-    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05) !important;
+.btn-submit {
+    padding: 0.75rem 2.5rem;
+    background: #fff;
+    border: none;
+    border-radius: 12px;
+    color: #000;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
+}
+
+.btn-cancel {
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border-color: #fff;
 }
 
 .text-muted-custom {
-    color: rgba(255, 255, 255, 0.5) !important;
+    color: rgba(255, 255, 255, 0.45) !important;
 }
 
-label {
-    color: rgba(255, 255, 255, 0.6) !important;
+.btn-loader {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.loader-dot {
+    width: 8px;
+    height: 8px;
+    background: #000;
+    border-radius: 50%;
+    animation: loaderBounce 1.4s ease-in-out infinite both;
+}
+
+.loader-dot:nth-child(1) { animation-delay: -0.32s; }
+.loader-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes loaderBounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
 }
