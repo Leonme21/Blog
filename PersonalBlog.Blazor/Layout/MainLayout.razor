@@ -29,7 +29,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        AuthService.OnChange += StateHasChanged;
+        AuthService.OnChange += StateHasChangedHandler;
         await CheckAuth();
     }
 
@@ -43,8 +43,15 @@
         }
     }
 
+    private async void StateHasChangedHandler()
+    {
+        await InvokeAsync(async () => {
+            await CheckAuth();
+        });
+    }
+
     public void Dispose()
     {
-        AuthService.OnChange -= StateHasChanged;
+        AuthService.OnChange -= StateHasChangedHandler;
     }
 }
