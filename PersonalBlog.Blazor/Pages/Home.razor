@@ -9,46 +9,48 @@
 
 <PageTitle>Blog Personal - Inicio</PageTitle>
 
-<div class="blog-container">
-    <header class="blog-header">
-        <h1 class="blog-title">Blog Personal</h1>
-        <p class="blog-subtitle">Ideas, pensamientos e historias.</p>
-    </header>
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-light text-white">Blog Personal</h1>
+        <p class="text-muted-custom lead">Ideas, pensamientos e historias.</p>
+    </div>
 
     @if (articulos == null)
     {
-        <div class="loading-state">
-            <div class="spinner"></div>
-            <p>Cargando los últimos artículos...</p>
+        <div class="text-center py-5">
+            <div class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-3 text-muted-custom">Cargando los últimos artículos...</p>
         </div>
     }
     else if (!articulos.Any())
     {
-        <div class="empty-state">
-            <p>No hay artículos publicados todavía. ¡Vuelve pronto!</p>
+        <div class="text-center py-5">
+            <div class="card shadow-sm border-0 rounded-lg article-card-hover">
+                <div class="card-body">
+                    <p class="text-muted-custom mb-0">No hay artículos publicados todavía. ¡Vuelve pronto!</p>
+                </div>
+            </div>
         </div>
     }
     else
     {
-        <div class="article-list">
-            @foreach (var articulo in articulos)
-            {
-                <div class="article-card shadow-sm mb-3">
-                    <div class="article-card-content" @onclick="() => NavigateToArticle(articulo.Id)">
-                        <h2 class="article-title">@articulo.Titulo</h2>
-                        <div class="article-meta">
-                            <span class="article-date">@articulo.FechaPublicacion.ToString("MMMM d, yyyy")</span>
-                            <span class="article-author">por @articulo.NombreAutor</span>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                @foreach (var articulo in articulos)
+                {
+                    <div class="card shadow-sm border-0 rounded-lg mb-4 article-card-hover article-card-link" @onclick="() => NavigateToArticle(articulo.Id)">
+                        <div class="card-body p-4">
+                            <h2 class="h3 fw-normal mb-2 text-white">@articulo.Titulo</h2>
+                            <div class="d-flex text-muted-custom small">
+                                <span class="me-3"><i class="bi bi-calendar3 me-1"></i> @articulo.FechaPublicacion.ToString("MMMM d, yyyy")</span>
+                                <span><i class="bi bi-person me-1"></i> por @articulo.NombreAutor</span>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="article-actions d-flex align-items-center">
-                        <div class="article-card-action" @onclick="() => NavigateToArticle(articulo.Id)">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                        </div>
-                    </div>
-                </div>
-            }
+                }
+            </div>
         </div>
     }
 </div>

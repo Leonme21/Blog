@@ -1,4 +1,4 @@
-.login-page, .register-page {
+.register-page {
     min-height: 100vh;
     min-height: 100dvh;
     display: flex;
@@ -20,7 +20,7 @@
     z-index: 1;
 }
 
-.login-container, .register-container {
+.register-container {
     position: relative;
     z-index: 2;
     width: 100%;
@@ -32,7 +32,7 @@
     animation: fadeInUp 0.8s ease-out;
 }
 
-.login-container::-webkit-scrollbar, .register-container::-webkit-scrollbar {
+.register-container::-webkit-scrollbar {
     width: 0;
     background: transparent;
 }
@@ -48,7 +48,7 @@
     }
 }
 
-.login-card, .register-card {
+.register-card {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -188,7 +188,7 @@
     padding: 0 0.4rem;
 }
 
-.btn-login, .btn-register {
+.btn-register {
     width: 100%;
     padding: clamp(0.85rem, 2.5vw, 1rem);
     background: #fff;
@@ -208,7 +208,7 @@
     overflow: hidden;
 }
 
-.btn-login::before, .btn-register::before {
+.btn-register::before {
     content: '';
     position: absolute;
     top: 0;
@@ -219,26 +219,26 @@
     transition: left 0.5s ease;
 }
 
-.btn-login:hover::before, .btn-register:hover::before {
+.btn-register:hover::before {
     left: 100%;
 }
 
-.btn-login:hover, .btn-register:hover {
+.btn-register:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 40px rgba(255, 255, 255, 0.15);
 }
 
-.btn-login:active, .btn-register:active {
+.btn-register:active {
     transform: translateY(0);
 }
 
-.btn-login:disabled, .btn-register:disabled {
+.btn-register:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
 }
 
-.btn-login:disabled:hover::before, .btn-register:disabled:hover::before {
+.btn-register:disabled:hover::before {
     left: -100%;
 }
 
@@ -292,7 +292,7 @@
 }
 
 @media (max-height: 600px) {
-    .login-page, .register-page {
+    .register-page {
         padding: 0.5rem;
     }
 
@@ -319,7 +319,7 @@
         font-size: 0.75rem;
     }
 
-    .login-card, .register-card {
+    .register-card {
         padding: 1rem;
         border-radius: 16px;
     }
@@ -336,7 +336,7 @@
         left: 2.75rem;
     }
 
-    .btn-login, .btn-register {
+    .btn-register {
         padding: 0.75rem;
         margin-top: 0.25rem;
     }
@@ -348,11 +348,11 @@
 }
 
 @media (max-width: 480px) {
-    .login-container, .register-container {
+    .register-container {
         max-width: 100%;
     }
 
-    .login-card, .register-card {
+    .register-card {
         border-radius: 16px;
     }
 

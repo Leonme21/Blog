@@ -8,63 +8,83 @@
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
 
-<PageTitle>Panel de Administración</PageTitle>
+<PageTitle>Panel de Administración - Blog Personal</PageTitle>
 
 <div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Blog Personal <span class="text-muted fs-5">| Panel de Administración</span></h2>
-        <div>
-            <button class="btn btn-primary me-2" @onclick='() => Navigation.NavigateTo("/admin/new")'>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg me-1" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-                </svg>
-                Añadir Nuevo
-            </button>
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm border-0 rounded-lg admin-card">
+                <div class="card-header bg-transparent border-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="fw-light my-2 text-white">Administración</h3>
+                        <p class="text-muted-custom small">Gestiona las entradas de tu blog</p>
+                    </div>
+                    <button class="btn btn-light shadow-sm px-4 fw-bold" @onclick='() => Navigation.NavigateTo("/admin/new")'>
+                        <i class="bi bi-plus-lg me-1"></i> Añadir Nuevo
+                    </button>
+                </div>
+                <div class="card-body px-4 pb-4">
+                    @if (!isAuthorized)
+                    {
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-light" role="status"></div>
+                            <p class="mt-2 text-muted-custom small">Verificando autorización...</p>
+                        </div>
+                    }
+                    else if (isLoading)
+                    {
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-light" role="status"></div>
+                            <p class="mt-2 text-muted-custom small">Cargando artículos...</p>
+                        </div>
+                    }
+                    else if (articulos == null || !articulos.Any())
+                    {
+                        <div class="text-center py-5">
+                            <h5 class="text-white fw-light">No se encontraron artículos.</h5>
+                            <p class="small text-muted-custom">¡Empieza a escribir tu primera entrada!</p>
+                            <button class="btn btn-glass mt-2" @onclick="NavigateToNew">Crear Artículo</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle border-top border-secondary">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="fw-normal py-3 text-white">Título</th>
+                                        <th class="fw-normal py-3 text-white">Fecha</th>
+                                        <th class="fw-normal py-3 text-end text-white">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var articulo in articulos)
+                                    {
+                                        <tr class="border-secondary">
+                                            <td class="py-3">
+                                                <span class="fw-normal text-white">@articulo.Titulo</span>
+                                            </td>
+                                            <td class="py-3 text-muted-custom small">
+                                                @articulo.FechaPublicacion.ToString("d 'de' MMM, yyyy")
+                                            </td>
+                                            <td class="py-3 text-end">
+                                                <button class="btn btn-sm btn-glass me-1" @onclick="() => NavigateToEdit(articulo.Id)">
+                                                    <i class="bi bi-pencil"></i> Editar
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteArticle(articulo.Id)">
+                                                    <i class="bi bi-trash"></i> Eliminar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
     </div>
-
-    @if (!isAuthorized)
-    {
-        <div class="alert alert-warning">Verificando autorización...</div>
-    }
-    else if (isLoading)
-    {
-        <div class="text-center py-5">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Cargando...</span>
-            </div>
-        </div>
-    }
-    else if (articulos == null || !articulos.Any())
-    {
-        <div class="card text-center py-5 shadow-sm border-0">
-            <div class="card-body">
-                <h5 class="text-muted">No se encontraron artículos.</h5>
-                <p>¡Empieza a escribir tu primera entrada!</p>
-                <button class="btn btn-primary mt-2" @onclick="NavigateToNew">Crear Artículo</button>
-            </div>
-        </div>
-    }
-    else
-    {
-        <div class="card shadow-sm border-0">
-            <div class="list-group list-group-flush">
-                @foreach (var articulo in articulos)
-                {
-                    <div class="list-group-item d-flex justify-content-between align-items-center py-3">
-                        <div>
-                            <h5 class="mb-1">@articulo.Titulo</h5>
-                            <small class="text-muted">Publicado: @articulo.FechaPublicacion.ToString("d 'de' MMM, yyyy")</small>
-                        </div>
-                        <div>
-                            <button class="btn btn-sm btn-outline-primary me-2" @onclick="() => NavigateToEdit(articulo.Id)">Editar</button>
-                            <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteArticle(articulo.Id)">Eliminar</button>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    }
 </div>
 
 @code {

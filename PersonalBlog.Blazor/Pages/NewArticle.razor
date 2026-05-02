@@ -8,46 +8,47 @@
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
 
-<PageTitle>Nuevo Artículo</PageTitle>
+<PageTitle>Nuevo Artículo - Administrador</PageTitle>
 
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>Nuevo Artículo</h2>
-                <button class="btn btn-outline-secondary" @onclick="NavigateBack">Cancelar</button>
-            </div>
-
-            @if (!isAuthorized)
-            {
-                <div class="alert alert-warning">Verificando autorización...</div>
-            }
-            else
-            {
-                <div class="card shadow-sm border-0">
-                    <div class="card-body p-4">
-
-
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-sm border-0 rounded-lg form-card">
+                <div class="card-header bg-transparent border-0 pt-4 pb-0">
+                    <h3 class="fw-light my-2 text-white">Nuevo Artículo</h3>
+                    <p class="text-muted-custom small">Crea una nueva entrada para tu blog</p>
+                </div>
+                <div class="card-body p-4">
+                    @if (!isAuthorized)
+                    {
+                        <div class="text-center py-4">
+                            <div class="spinner-border text-light" role="status"></div>
+                            <p class="mt-2 text-muted-custom small">Verificando autorización...</p>
+                        </div>
+                    }
+                    else
+                    {
                         <EditForm Model="@articleModel" OnValidSubmit="HandleSubmit">
                             <DataAnnotationsValidator />
 
-                            <div class="mb-4">
-                                <label for="title" class="form-label fw-bold">Título del Artículo</label>
-                                <InputText id="title" class="form-control form-control-lg" @bind-Value="articleModel.Titulo" placeholder="Escribe un título atractivo..." />
+                            <div class="form-floating mb-3">
+                                <InputText id="title" class="form-control form-input-custom" @bind-Value="articleModel.Titulo" placeholder="Título" />
+                                <label for="title">Título del Artículo</label>
                             </div>
                             
-                            <div class="mb-4">
-                                <label for="publishDate" class="form-label fw-bold">Fecha de Publicación</label>
-                                <InputDate id="publishDate" class="form-control" @bind-Value="articleModel.FechaPublicacion" />
+                            <div class="form-floating mb-3">
+                                <InputDate id="publishDate" class="form-control form-input-custom" @bind-Value="articleModel.FechaPublicacion" placeholder="Fecha" />
+                                <label for="publishDate">Fecha de Publicación</label>
                             </div>
 
-                            <div class="mb-4">
-                                <label for="content" class="form-label fw-bold">Contenido</label>
-                                <InputTextArea id="content" class="form-control" @bind-Value="articleModel.Contenido" rows="12" placeholder="Escribe aquí tu increíble contenido..." />
+                            <div class="form-floating mb-4">
+                                <InputTextArea id="content" class="form-control form-input-custom content-editor" @bind-Value="articleModel.Contenido" placeholder="Contenido" />
+                                <label for="content">Contenido del artículo</label>
                             </div>
 
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <button class="btn btn-primary px-5" type="submit" disabled="@isSubmitting">
+                            <div class="d-flex justify-content-end gap-2 mt-4">
+                                <button type="button" class="btn btn-outline-light border px-4" @onclick="NavigateBack">Cancelar</button>
+                                <button class="btn btn-light px-5 fw-bold" type="submit" disabled="@isSubmitting">
                                     @if (isSubmitting)
                                     {
                                         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
@@ -60,9 +61,9 @@
                                 </button>
                             </div>
                         </EditForm>
-                    </div>
+                    }
                 </div>
-            }
+            </div>
         </div>
     </div>
 </div>

@@ -1,0 +1,33 @@
+.form-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #fff;
+}
+
+.content-editor {
+    height: 400px !important;
+}
+
+.form-input-custom {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+    border-radius: 12px !important;
+    transition: all 0.3s ease;
+}
+
+.form-input-custom:focus {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05) !important;
+}
+
+.text-muted-custom {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+label {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
