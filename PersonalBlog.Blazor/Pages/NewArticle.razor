@@ -44,7 +44,7 @@
                             
                             <div class="mb-4">
                                 <div class="input-group-custom">
-                                    <div class="input-icon">
+                                    <div class="input-icon" @onclick='() => JSRuntime.InvokeVoidAsync("showDatePicker", "publishDate")' style="cursor: pointer; z-index: 5;">
                                         <i class="bi bi-calendar3"></i>
                                     </div>
                                     <InputDate id="publishDate" class="form-input" @bind-Value="articleModel.FechaPublicacion" placeholder=" " />

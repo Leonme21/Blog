@@ -28,6 +28,16 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+    <script>
+        window.showDatePicker = (id) => {
+            const input = document.getElementById(id);
+            if (input && input.showPicker) {
+                input.showPicker();
+            } else if (input) {
+                input.click(); // Fallback
+            }
+        };
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/particles.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
