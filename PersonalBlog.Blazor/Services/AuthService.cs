@@ -20,7 +20,6 @@ namespace PersonalBlog.Blazor.Services
             if (string.IsNullOrEmpty(token)) return false;
             if (IsTokenExpired(token))
             {
-                await LogoutAsync();
                 return false;
             }
             return true;

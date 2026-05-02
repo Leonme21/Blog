@@ -27,13 +27,10 @@
 @code {
     private bool isAuthenticated = false;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if (firstRender)
-        {
-            AuthService.OnChange += StateHasChangedHandler;
-            await CheckAuth();
-        }
+        AuthService.OnChange += StateHasChanged;
+        await CheckAuth();
     }
 
     private async Task CheckAuth()
@@ -46,16 +43,8 @@
         }
     }
 
-
-    private async void StateHasChangedHandler()
-    {
-        await InvokeAsync(async () => {
-            await CheckAuth();
-        });
-    }
-
     public void Dispose()
     {
-        AuthService.OnChange -= StateHasChangedHandler;
+        AuthService.OnChange -= StateHasChanged;
     }
 }

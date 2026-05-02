@@ -1,4 +1,4 @@
-.register-page {
+﻿.login-page, .register-page {
     min-height: 100vh;
     min-height: 100dvh;
     display: flex;
@@ -20,7 +20,7 @@
     z-index: 1;
 }
 
-.register-container {
+.login-container, .register-container {
     position: relative;
     z-index: 2;
     width: 100%;
@@ -32,23 +32,24 @@
     animation: fadeInUp 0.8s ease-out;
 }
 
-.register-container::-webkit-scrollbar {
-    width: 0;
-    background: transparent;
-}
+    .login-container::-webkit-scrollbar, .register-container::-webkit-scrollbar {
+        width: 0;
+        background: transparent;
+    }
 
 @keyframes fadeInUp {
     from {
         opacity: 0;
         transform: translateY(40px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-.register-card {
+.login-card, .register-card {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -66,15 +67,19 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.03), transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.02), transparent 50%);
+    background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.03), transparent 50%), radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.02), transparent 50%);
     animation: glowRotate 8s linear infinite;
     pointer-events: none;
 }
 
 @keyframes glowRotate {
-    0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(180deg); }
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
 }
 
 .card-header-custom {
@@ -100,8 +105,15 @@
 }
 
 @keyframes iconPulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); }
-    50% { transform: scale(1.05); box-shadow: 0 12px 40px rgba(255, 255, 255, 0.05); }
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 12px 40px rgba(255, 255, 255, 0.05);
+    }
 }
 
 .card-header-custom h2 {
@@ -152,20 +164,20 @@
     outline: none;
 }
 
-.form-input::placeholder {
-    color: transparent;
-}
+    .form-input::placeholder {
+        color: transparent;
+    }
 
-.form-input:focus {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
-}
+    .form-input:focus {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
+    }
 
-.form-input:focus ~ .input-icon,
-.form-input:not(:placeholder-shown) ~ .input-icon {
-    color: #fff;
-}
+        .form-input:focus ~ .input-icon,
+        .form-input:not(:placeholder-shown) ~ .input-icon {
+            color: #fff;
+        }
 
 .input-group-custom label {
     position: absolute;
@@ -188,7 +200,7 @@
     padding: 0 0.4rem;
 }
 
-.btn-register {
+.btn-login, .btn-register {
     width: 100%;
     padding: clamp(0.85rem, 2.5vw, 1rem);
     background: #fff;
@@ -208,39 +220,39 @@
     overflow: hidden;
 }
 
-.btn-register::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
-    transition: left 0.5s ease;
-}
+    .btn-login::before, .btn-register::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
+        transition: left 0.5s ease;
+    }
 
-.btn-register:hover::before {
-    left: 100%;
-}
+    .btn-login:hover::before, .btn-register:hover::before {
+        left: 100%;
+    }
 
-.btn-register:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 40px rgba(255, 255, 255, 0.15);
-}
+    .btn-login:hover, .btn-register:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 40px rgba(255, 255, 255, 0.15);
+    }
 
-.btn-register:active {
-    transform: translateY(0);
-}
+    .btn-login:active, .btn-register:active {
+        transform: translateY(0);
+    }
 
-.btn-register:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-}
+    .btn-login:disabled, .btn-register:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+    }
 
-.btn-register:disabled:hover::before {
-    left: -100%;
-}
+        .btn-login:disabled:hover::before, .btn-register:disabled:hover::before {
+            left: -100%;
+        }
 
 .btn-loader {
     display: flex;
@@ -255,12 +267,22 @@
     animation: loaderBounce 1.4s ease-in-out infinite both;
 }
 
-.loader-dot:nth-child(1) { animation-delay: -0.32s; }
-.loader-dot:nth-child(2) { animation-delay: -0.16s; }
+    .loader-dot:nth-child(1) {
+        animation-delay: -0.32s;
+    }
+
+    .loader-dot:nth-child(2) {
+        animation-delay: -0.16s;
+    }
 
 @keyframes loaderBounce {
-    0%, 80%, 100% { transform: scale(0); }
-    40% { transform: scale(1); }
+    0%, 80%, 100% {
+        transform: scale(0);
+    }
+
+    40% {
+        transform: scale(1);
+    }
 }
 
 .card-footer-custom {
@@ -272,11 +294,11 @@
     z-index: 1;
 }
 
-.card-footer-custom p {
-    color: rgba(255, 255, 255, 0.4);
-    font-size: clamp(0.8rem, 3vw, 0.9rem);
-    margin: 0;
-}
+    .card-footer-custom p {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: clamp(0.8rem, 3vw, 0.9rem);
+        margin: 0;
+    }
 
 .link-action {
     color: #fff;
@@ -287,12 +309,12 @@
     transition: all 0.3s ease;
 }
 
-.link-action:hover {
-    border-bottom-color: #fff;
-}
+    .link-action:hover {
+        border-bottom-color: #fff;
+    }
 
 @media (max-height: 600px) {
-    .register-page {
+    .login-page, .register-page {
         padding: 0.5rem;
     }
 
@@ -302,24 +324,24 @@
         margin: 0 auto 0.75rem;
     }
 
-    .icon-wrapper svg {
-        width: 20px;
-        height: 20px;
-    }
+        .icon-wrapper svg {
+            width: 20px;
+            height: 20px;
+        }
 
     .card-header-custom {
         margin-bottom: 0.75rem;
     }
 
-    .card-header-custom h2 {
-        font-size: 1.1rem;
-    }
+        .card-header-custom h2 {
+            font-size: 1.1rem;
+        }
 
     .subtitle {
         font-size: 0.75rem;
     }
 
-    .register-card {
+    .login-card, .register-card {
         padding: 1rem;
         border-radius: 16px;
     }
@@ -336,7 +358,7 @@
         left: 2.75rem;
     }
 
-    .btn-register {
+    .btn-login, .btn-register {
         padding: 0.75rem;
         margin-top: 0.25rem;
     }
@@ -348,11 +370,11 @@
 }
 
 @media (max-width: 480px) {
-    .register-container {
+    .login-container, .register-container {
         max-width: 100%;
     }
 
-    .register-card {
+    .login-card, .register-card {
         border-radius: 16px;
     }
 

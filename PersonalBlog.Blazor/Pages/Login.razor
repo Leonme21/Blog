@@ -11,39 +11,39 @@
 
 <div class="login-page">
     <canvas id="particleCanvas"></canvas>
-    
+
     <div class="login-container">
         <div class="login-card">
             <div class="card-glow"></div>
-            
+
             <div class="card-header-custom">
                 <div class="icon-wrapper">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
                     </svg>
                 </div>
                 <h2>Bienvenido de nuevo</h2>
                 <p class="subtitle">Inicia sesión para gestionar tu blog</p>
             </div>
-            
+
             <div class="card-body-custom">
                 <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
                     <DataAnnotationsValidator />
-                    
+
                     <div class="input-group-custom">
                         <div class="input-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
                             </svg>
                         </div>
                         <InputText id="username" class="form-input" @bind-Value="loginModel.UserName" placeholder=" " />
                         <label for="username">Nombre de usuario</label>
                     </div>
-                    
+
                     <div class="input-group-custom">
                         <div class="input-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
                             </svg>
                         </div>
                         <InputText id="password" type="password" class="form-input" @bind-Value="loginModel.Password" placeholder=" " />
@@ -63,13 +63,13 @@
                         {
                             <span>Entrar</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
                             </svg>
                         }
                     </button>
                 </EditForm>
             </div>
-            
+
             <div class="card-footer-custom">
                 <p>¿No tienes cuenta? <a href="/register" class="link-action">¡Regístrate aquí!</a></p>
             </div>
@@ -104,21 +104,22 @@
         try
         {
             var response = await Http.PostAsJsonAsync("api/User/Login", loginModel);
-            
+
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadFromJsonAsync<AuthResponseWrapper>();
                 if (result != null && result.Token != null && result.Token.Success)
                 {
                     await AuthService.LoginAsync(result.Token.Token);
-                    
-                    await JSRuntime.InvokeVoidAsync("Swal.fire", new {
+
+                    await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                    {
                         title = "¡Bienvenido!",
                         text = "Inicio de sesión exitoso",
                         icon = "success",
                         confirmButtonColor = "#000"
                     });
-                    
+
                     Navigation.NavigateTo("/home");
                 }
                 else
@@ -144,7 +145,8 @@
 
     private async Task ShowError(string message)
     {
-        await JSRuntime.InvokeVoidAsync("Swal.fire", new {
+        await JSRuntime.InvokeVoidAsync("Swal.fire", new
+        {
             title = "Error",
             text = message,
             icon = "error",
