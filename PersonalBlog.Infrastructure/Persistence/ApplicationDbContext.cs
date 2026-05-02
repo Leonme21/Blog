@@ -54,7 +54,7 @@ namespace PersonalBlog.Infrastructure.Persistence
                 entity.Property(e => e.NombreUsuario).HasMaxLength(20).IsRequired();
                 entity.Property(e => e.Contraseña).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.Nombre).HasMaxLength(50);
-                entity.Property(e => e.Email).HasMaxLength(50).IsRequired();
+                entity.Property(e => e.Email).HasMaxLength(50);
 
                 entity.HasMany(e => e.Articulos)
                       .WithOne(a => a.Usuario)

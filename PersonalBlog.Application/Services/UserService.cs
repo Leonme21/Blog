@@ -1,4 +1,4 @@
-﻿using PersonalBlog.Application.DTOs;
+using PersonalBlog.Application.DTOs;
 using PersonalBlog.Application.Interfaces;
 using PersonalBlog.Domain.Interfaces;
 using System;
@@ -45,7 +45,7 @@ namespace PersonalBlog.Application.Services
             // 1. Validar si ya existe
             if (await _userRepository.GetByNombreUsuarioAsync(dto.UserName) != null)
                 return new RegisterResponseDto { Success = false, Message = "El nombre de usuario ya existe." };
-            if (await _userRepository.ExistsByEmailAsync(dto.Email))
+            if (await _userRepository.ExistsByEmailAsync(dto.Email ?? string.Empty))
                 return new RegisterResponseDto { Success = false, Message = "El email ya existe." };
             // 2. Crear entidad y Hashear contraseña
             var user = dto.ToEntity();

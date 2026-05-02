@@ -47,10 +47,10 @@ namespace PersonalBlog.Application.Mappings
         {
             return new Usuario
             {
-                Nombre = dto.Nombre,
+                Nombre = dto.Nombre ?? string.Empty,
                 NombreUsuario = dto.UserName,
-                Email = dto.Email,
-                Contraseña = dto.Contraseña
+                Email = dto.Email ?? string.Empty,
+                Contraseña = dto.Contraseña,
             };
         }
     }
